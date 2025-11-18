@@ -119,6 +119,20 @@ function createSubjectActionsCell(subject)
     return td;
 }
 
+function showModal(message, students = []) {
+    const modal = document.getElementById("errorModal");
+    const messageBox = document.getElementById("errorMessage");
+
+    if (students.length > 0) {
+        const list = students.map(s => "- " + s.fullname).join("<br>");
+        messageBox.innerHTML = message + "<br><br>" + list;
+    } else {
+        messageBox.textContent = message;
+    }
+
+    modal.style.display = 'block';
+}
+
 async function confirmDeleteSubject(id)
 {
     if (!confirm('¿Seguro que deseas borrar esta materia?')) return;
@@ -134,3 +148,4 @@ async function confirmDeleteSubject(id)
         showModal(error.error, error.students);
     }
 }
+
