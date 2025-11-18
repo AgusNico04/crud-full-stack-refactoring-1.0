@@ -64,20 +64,6 @@ function handleDelete($conn)
     $input = json_decode(file_get_contents("php://input"), true);
     $subjectId = $input['id'];
     
-    require_once("./repositories/studentsSubjects.php");
-
-    $asignaciones = getStudentsBySubject($conn, $subjectId);
-
-    if (count($asignaciones) > 0) 
-    {
-        http_response_code(400);
-        echo json_encode([
-            "error" => "La materia no puede eliminarse porque está asignada.",
-            "students" => $asignaciones
-        ]);
-        return;
-    }
-
     $result = deleteSubject($conn, $input['id']);
     if ($result['deleted'] > 0) 
     {
