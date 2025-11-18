@@ -119,8 +119,6 @@ function createSubjectActionsCell(subject)
     return td;
 }
 
-<<<<<<< HEAD
-=======
 function showModal(message, students = []) {
     const modal = document.getElementById("errorModal");
     const messageBox = document.getElementById("errorMessage");
@@ -144,7 +142,6 @@ function showModal(message, students = []) {
     modal.style.display = "block";
 }
 
->>>>>>> parent of 2207c65 (arreglo6)
 async function confirmDeleteSubject(id)
 {
     if (!confirm('¿Seguro que deseas borrar esta materia?')) return;
@@ -168,12 +165,17 @@ async function confirmDeleteSubject(id)
 =======
     catch (err)
     {
+<<<<<<< HEAD
         console.log('Error al borrar materia:', err.message);
         document.getElementById('errorText').textContent = err.message;
         document.getElementById('errorMessage').classList.remove('w3-hide');
         setTimeout(() => document.getElementById('errorMessage').classList.add('w3-hide'), 5000);
         console.error('Error al borrar materia:', err.message);
 >>>>>>> parent of 6a61cf7 (RtaErrorDelBE)
+=======
+        const error = JSON.parse(err.message);
+        showModal(error.error, error.students);
+>>>>>>> 1de2e1c (RtaErrorDelBE)
     }
 }
 =======
