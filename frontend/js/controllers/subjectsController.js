@@ -151,13 +151,10 @@ async function confirmDeleteSubject(id)
         await subjectsAPI.remove(id);
         loadSubjects();
     }
-    catch (err) {
-        let errorObj = { error: err.message };
-        try {
-            errorObj = JSON.parse(err.message);
-        }
-        catch (e) {
-    showModal(errorObj.error || "Error desconocido", errorObj.students || []);
-        }
+    catch (err)
+    {
+        const error = JSON.parse(err.message);
+        showModal(error.error, error.students);
     }
 }
+
