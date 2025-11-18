@@ -69,8 +69,13 @@ function updateStudentSubject($conn, $id, $student_id, $subject_id, $approved)
 <<<<<<< HEAD
 function getStudentsBySubject($conn, $subject_id)
 {
+<<<<<<< HEAD
     $sql = "SELECT ss.student_id, s.fullname FROM students_subjects AS ss
             JOIN students AS s ON ss.student_id = s.id
+=======
+    $sql = "SELECT id, fullname FROM students AS s
+            JOIN students_subjects AS ss ON s.id = ss.id
+>>>>>>> parent of 48bfbcc (arreglo2)
             WHERE ss.subject_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $subject_id);
@@ -90,5 +95,4 @@ function removeStudentSubject($conn, $id)
 
     return ['deleted' => $stmt->affected_rows];
 }
-
 ?>
