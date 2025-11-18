@@ -38,10 +38,16 @@ function setupFormHandler()
             clearForm();
             loadStudents();
         }
-        catch (err)
+        catch (err) //atrapamos el error lanzado desde el API
         {
-            console.error(err.message);
-        }
+            if (err.error === "duplicate_email") { //verificamos si es el error de email duplicado
+            alert(err.message); //lanzamos alerta con el mensaje recibido
+            return;
+            }
+
+        console.error(err);//sino es otro error, lo mostramos en consola
+        alert("Ocurrió un error inesperado");//y mostramos un mensaje genérico
+    }
     });
 }
 

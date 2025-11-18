@@ -130,6 +130,10 @@ async function confirmDeleteSubject(id)
     }
     catch (err)
     {
+        console.log('Error al borrar materia:', err.message);
+        document.getElementById('errorText').textContent = err.message;
+        document.getElementById('errorMessage').classList.remove('w3-hide');
+        setTimeout(() => document.getElementById('errorMessage').classList.add('w3-hide'), 5000);
         console.error('Error al borrar materia:', err.message);
     }
 }
