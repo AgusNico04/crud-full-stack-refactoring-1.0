@@ -66,6 +66,7 @@ function updateStudentSubject($conn, $id, $student_id, $subject_id, $approved)
     return ['updated' => $stmt->affected_rows];
 }
 
+<<<<<<< HEAD
 function getStudentsBySubject($conn, $subject_id)
 {
     $sql = "SELECT ss.student_id, s.fullname FROM students_subjects AS ss
@@ -78,6 +79,8 @@ function getStudentsBySubject($conn, $subject_id)
     return $result->fetch_all(MYSQLI_ASSOC);
 }
 
+=======
+>>>>>>> parent of 73ecfa8 (Arreglo1)
 function removeStudentSubject($conn, $id) 
 {
     $sql = "DELETE FROM students_subjects WHERE id = ?";
