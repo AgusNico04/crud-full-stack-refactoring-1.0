@@ -142,6 +142,7 @@ async function confirmDeleteSubject(id)
         await subjectsAPI.remove(id);
         loadSubjects();
     }
+<<<<<<< HEAD
         catch (err) {
         let errorObj = { error: err.message };
         try {
@@ -150,6 +151,11 @@ async function confirmDeleteSubject(id)
         catch (e) {
             showModal(errorObj.error || "Error desconocido", errorObj.students || []);
         }
+=======
+    catch (err)
+    {
+        console.error('Error al borrar materia:', err.message);
+>>>>>>> parent of 6a61cf7 (RtaErrorDelBE)
     }
 }
 
