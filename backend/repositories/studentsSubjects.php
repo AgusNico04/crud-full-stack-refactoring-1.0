@@ -68,12 +68,12 @@ function updateStudentSubject($conn, $id, $student_id, $subject_id, $approved)
 
 function getStudentsBySubject($conn, $subject_id)
 {
-    $sql = "SELECT ss.student_id, s.fullname FROM students AS s
-            JOIN students_subjects AS ss ON s.id = ss.id
+    $sql = "SELECT ss.student_id, s.fullname FROM students_subjects AS ss
+            JOIN students AS s ON ss.student_id = s.id
             WHERE ss.subject_id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id);
-    $stmt->execute;
+    $stmt->bind_param("i", $subject_id);
+    $stmt->execute();
     $result = $stmt->get_result();
     return $result->fetch_all(MYSQLI_ASSOC);
 }
