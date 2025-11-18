@@ -13,16 +13,21 @@ export function createAPI(moduleName, config = {})
     const API_URL = config.urlOverride ?? `../../backend/server.php?module=${moduleName}`;
 
     async function sendJSON(method, data) 
-    {
+ {
         const res = await fetch(API_URL,
         {
             method,
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
+       const json = await res.json();
 
-        if (!res.ok) throw new Error(`Error en ${method}`);
-        return await res.json();
+       if (!res.ok) {
+        // El backend ya devuelve { error: "mensaje..." }
+        throw new Error(json.error || "Error en la operación");
+    }
+
+    return json;
     }
 
     return {
