@@ -68,7 +68,7 @@ function updateStudentSubject($conn, $id, $student_id, $subject_id, $approved)
 
 function getStudentsBySubject($conn, $subject_id)
 {
-    $sql = "SELECT id, fullname FROM students AS s
+    $sql = "SELECT ss.student_id, s.fullname FROM students AS s
             JOIN students_subjects AS ss ON s.id = ss.id
             WHERE ss.subject_id = ?";
     $stmt = $conn->prepare($sql);
@@ -87,4 +87,5 @@ function removeStudentSubject($conn, $id)
 
     return ['deleted' => $stmt->affected_rows];
 }
+
 ?>
