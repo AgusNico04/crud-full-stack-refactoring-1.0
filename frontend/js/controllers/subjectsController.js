@@ -130,6 +130,7 @@ async function confirmDeleteSubject(id)
     }
     catch (err)
     {
-        console.error('Error al borrar materia:', err.message);
+        const error = JSON.parse(err.message);
+        showModal(error.error, error.students);
     }
 }
