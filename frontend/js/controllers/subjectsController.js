@@ -119,6 +119,23 @@ function createSubjectActionsCell(subject)
     return td;
 }
 
+<<<<<<< HEAD
+=======
+function showModal(message, students = []) {
+    const modal = document.getElementById("errorModal");
+    const messageBox = document.getElementById("errorMessage");
+
+    if (students.length > 0) {
+        const list = students.map(s => "- " + s.fullname).join("<br>");
+        messageBox.innerHTML = message + "<br><br>" + list;
+    } else {
+        messageBox.textContent = message;
+    }
+
+    modal.style.display = 'block';
+}
+
+>>>>>>> parent of 2207c65 (arreglo6)
 async function confirmDeleteSubject(id)
 {
     if (!confirm('¿Seguro que deseas borrar esta materia?')) return;
