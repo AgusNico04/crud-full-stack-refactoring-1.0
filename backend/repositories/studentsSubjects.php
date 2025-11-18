@@ -66,6 +66,18 @@ function updateStudentSubject($conn, $id, $student_id, $subject_id, $approved)
     return ['updated' => $stmt->affected_rows];
 }
 
+function getStudentsBySubject($conn, $subject_id)
+{
+    $sql = "SELECT id, fullname FROM students AS s
+            JOIN students_subjects AS ss ON s.id = ss.id
+            WHERE ss.subject_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    $stmt->execute;
+    $result = $stmt->get_result();
+    return $result->fetch_all(MYSQLI_ASSOC);
+}
+
 function removeStudentSubject($conn, $id) 
 {
     $sql = "DELETE FROM students_subjects WHERE id = ?";
