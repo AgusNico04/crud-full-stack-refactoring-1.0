@@ -21,7 +21,11 @@ export function createAPI(moduleName, config = {})
             body: JSON.stringify(data)
         });
 
-        if (!res.ok) throw new Error(`Error en ${method}`);
+        if (!res.ok) 
+        {
+            const errorData = await res.json();
+            throw new Error(errorData.error || `Error en ${method}`);
+        }
         return await res.json();
     }
 
