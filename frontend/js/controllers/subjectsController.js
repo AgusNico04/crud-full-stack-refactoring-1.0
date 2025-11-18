@@ -122,24 +122,15 @@ function createSubjectActionsCell(subject)
 function showModal(message, students = []) {
     const modal = document.getElementById("errorModal");
     const messageBox = document.getElementById("errorMessage");
-    const list = document.getElementById("studentList");
 
-    // Mensaje principal
-    messageBox.textContent = message;
-
-    // Limpiar la lista antes de rellenarla
-    list.innerHTML = "";
-
-    // Si vienen estudiantes, listarlos
     if (students.length > 0) {
-        students.forEach(stu => {
-            const li = document.createElement("li");
-            li.textContent = `${stu.fullname} (ID: ${stu.student_id})`;
-            list.appendChild(li);
-        });
+        const list = students.map(s => "- " + s.fullname).join("<br>");
+        messageBox.innerHTML = message + "<br><br>" + list;
+    } else {
+        messageBox.textContent = message;
     }
 
-    modal.style.display = "block";
+    modal.style.display = 'block';
 }
 
 async function confirmDeleteSubject(id)
@@ -151,10 +142,14 @@ async function confirmDeleteSubject(id)
         await subjectsAPI.remove(id);
         loadSubjects();
     }
-    catch (err)
-    {
-        const error = JSON.parse(err.message);
-        showModal(error.error, error.students);
+        catch (err) {
+        let errorObj = { error: err.message };
+        try {
+            errorObj = JSON.parse(err.message);
+        }
+        catch (e) {
+            showModal(errorObj.error || "Error desconocido", errorObj.students || []);
+        }
     }
 }
 
