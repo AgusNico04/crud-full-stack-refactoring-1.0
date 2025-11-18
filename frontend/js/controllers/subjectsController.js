@@ -129,6 +129,7 @@ async function confirmDeleteSubject(id)
         loadSubjects();
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
         catch (err) {
         let errorObj = { error: err.message };
         try {
@@ -144,3 +145,12 @@ async function confirmDeleteSubject(id)
 >>>>>>> parent of 6a61cf7 (RtaErrorDelBE)
     }
 }
+=======
+    catch (err)
+    {
+        const error = JSON.parse(err.message);
+        showModal(error.error, error.students);
+    }
+}
+
+>>>>>>> parent of a078602 (arreglo5)
