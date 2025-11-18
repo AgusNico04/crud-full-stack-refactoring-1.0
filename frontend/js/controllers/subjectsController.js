@@ -119,29 +119,6 @@ function createSubjectActionsCell(subject)
     return td;
 }
 
-function showModal(message, students = []) {
-    const modal = document.getElementById("errorModal");
-    const messageBox = document.getElementById("errorMessage");
-    const list = document.getElementById("studentList");
-
-    // Mensaje principal
-    messageBox.textContent = message;
-
-    // Limpiar la lista antes de rellenarla
-    list.innerHTML = "";
-
-    // Si vienen estudiantes, listarlos
-    if (students.length > 0) {
-        students.forEach(stu => {
-            const li = document.createElement("li");
-            li.textContent = `${stu.fullname} (ID: ${stu.student_id})`;
-            list.appendChild(li);
-        });
-    }
-
-    modal.style.display = "block";
-}
-
 async function confirmDeleteSubject(id)
 {
     if (!confirm('¿Seguro que deseas borrar esta materia?')) return;
@@ -151,41 +128,8 @@ async function confirmDeleteSubject(id)
         await subjectsAPI.remove(id);
         loadSubjects();
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        catch (err) {
-        let errorObj = { error: err.message };
-        try {
-            errorObj = JSON.parse(err.message);
-        }
-        catch (e) {
-            showModal(errorObj.error || "Error desconocido", errorObj.students || []);
-        }
-=======
     catch (err)
     {
-<<<<<<< HEAD
-        console.log('Error al borrar materia:', err.message);
-        document.getElementById('errorText').textContent = err.message;
-        document.getElementById('errorMessage').classList.remove('w3-hide');
-        setTimeout(() => document.getElementById('errorMessage').classList.add('w3-hide'), 5000);
         console.error('Error al borrar materia:', err.message);
->>>>>>> parent of 6a61cf7 (RtaErrorDelBE)
-=======
-        const error = JSON.parse(err.message);
-        showModal(error.error, error.students);
->>>>>>> 1de2e1c (RtaErrorDelBE)
     }
 }
-=======
-=======
->>>>>>> parent of 536e540 (arreglo10)
-    catch (err)
-    {
-        const error = JSON.parse(err.message);
-        showModal(error.error, error.students);
-    }
-}
-
->>>>>>> parent of a078602 (arreglo5)
