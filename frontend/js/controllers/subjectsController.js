@@ -122,15 +122,24 @@ function createSubjectActionsCell(subject)
 function showModal(message, students = []) {
     const modal = document.getElementById("errorModal");
     const messageBox = document.getElementById("errorMessage");
+    const list = document.getElementById("studentList");
 
+    // Mensaje principal
+    messageBox.textContent = message;
+
+    // Limpiar la lista antes de rellenarla
+    list.innerHTML = "";
+
+    // Si vienen estudiantes, listarlos
     if (students.length > 0) {
-        const list = students.map(s => "- " + s.fullname).join("<br>");
-        messageBox.innerHTML = message + "<br><br>" + list;
-    } else {
-        messageBox.textContent = message;
+        students.forEach(stu => {
+            const li = document.createElement("li");
+            li.textContent = `${stu.fullname} (ID: ${stu.student_id})`;
+            list.appendChild(li);
+        });
     }
 
-    modal.style.display = 'block';
+    modal.style.display = "block";
 }
 
 async function confirmDeleteSubject(id)
