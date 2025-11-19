@@ -24,7 +24,7 @@ export function createAPI(moduleName, config = {})
         if (!res.ok) 
         {
             const errorData = await res.json();
-            throw new Error(errorData.error || `Error en ${method}`);
+            throw new Error(errorData.message || errorData.error || `Error en ${method}`);
         }
         return await res.json();
     }
