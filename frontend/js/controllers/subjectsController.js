@@ -167,7 +167,7 @@ async function confirmDeleteSubject(id)
             document.getElementById('errorText').textContent = 'Ocurrió un error inesperado al borrar la materia.';
         
         document.getElementById('errorMessage').classList.remove('w3-hide');
-        setTimeout(() => document.getElementById('errorMessage').classList.add('w3-hide'), 5000);
+        setTimeout(() => document.getElementById('errorMessage').classList.add('w3-hide'), 3000);
 
     }
 }
