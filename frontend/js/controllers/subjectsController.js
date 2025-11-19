@@ -44,7 +44,7 @@ function setupSubjectFormHandler()
                 {
                     const paragraphElement = document.getElementById("errMat");
                     paragraphElement.textContent = "La materia ya existe (validación frontend)";
-                    paragraphElement.style.display = 'block';
+                    document.getElementById("errorElimMat").style.display = "block";
                     return; 
                 }
 
@@ -59,7 +59,7 @@ function setupSubjectFormHandler()
                     {
                         const paragraphElement = document.getElementById("errMat");
                         paragraphElement.textContent = "La materia ya existe (validación backend)";
-                        paragraphElement.style.display = 'block';
+                        document.getElementById("errorElimMat").style.display = "block";
                         return;
                     }
                     else 
