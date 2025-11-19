@@ -32,14 +32,32 @@ function handlePost($conn)
     $input = json_decode(file_get_contents("php://input"), true);
 
     $result = createStudent($conn, $input['fullname'], $input['email'], $input['age']);
-    if ($result['inserted'] > 0) 
+
+    // Si hay error: email duplicado
+    if (isset($result['error']) && $result['error'] === "duplicate_email") 
     {
-        echo json_encode(["message" => "Estudiante agregado correctamente"]);
-    } 
-    else 
+        http_response_code(409); // error 409 = conflicto
+        echo json_encode([
+            "error" => "duplicate_email",
+            "message" => "El email ya esta registrado"
+        ]);
+    }
+    // Si se insertó correctamente
+    else if ($result['inserted'] > 0) 
     {
+        echo json_encode([
+            "message" => "Estudiante agregado correctamente",
+            "id" => $result['id']
+        ]);
+    }
+    else
+    {
+        // Cualquier otro error
         http_response_code(500);
-        echo json_encode(["error" => "No se pudo agregar"]);
+        echo json_encode([
+            "error" => "db_error",
+            "message" => $result['message'] ?? "Error interno"
+        ]);
     }
 }
 
