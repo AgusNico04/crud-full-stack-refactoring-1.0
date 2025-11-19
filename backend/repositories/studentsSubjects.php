@@ -66,31 +66,18 @@ function updateStudentSubject($conn, $id, $student_id, $subject_id, $approved)
     return ['updated' => $stmt->affected_rows];
 }
 
-<<<<<<< HEAD
-function getStudentsBySubject($conn, $subject_id)
+function countSubjectsByStudent($conn, $studentId)
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    $sql = "SELECT ss.student_id, s.fullname FROM students_subjects AS ss
-            JOIN students AS s ON ss.student_id = s.id
-=======
-    $sql = "SELECT id, fullname FROM students AS s
-            JOIN students_subjects AS ss ON s.id = ss.id
->>>>>>> parent of 48bfbcc (arreglo2)
-=======
-    $sql = "SELECT ss.student_id, s.fullname FROM students AS s
-            JOIN students_subjects AS ss ON s.id = ss.id
->>>>>>> parent of fec4b01 (arreglo3)
-            WHERE ss.subject_id = ?";
+    $sql = "SELECT COUNT(*) AS total FROM students_subjects WHERE student_id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id);
-    $stmt->execute;
+    $stmt->bind_param("i", $studentId);
+    $stmt->execute();
     $result = $stmt->get_result();
-    return $result->fetch_all(MYSQLI_ASSOC);
-}
+    $row = $result->fetch_assoc();
 
-=======
->>>>>>> parent of 73ecfa8 (Arreglo1)
+    return (int)$row['total'];
+} //cuenta materias que tiene asignadas el estudiante 
+
 function removeStudentSubject($conn, $id) 
 {
     $sql = "DELETE FROM students_subjects WHERE id = ?";

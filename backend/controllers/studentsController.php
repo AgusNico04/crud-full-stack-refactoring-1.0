@@ -10,6 +10,7 @@
 */
 
 require_once("./repositories/students.php");
+require_once("./repositories/studentsSubjects.php");
 
 function handleGet($conn) 
 {
@@ -32,14 +33,32 @@ function handlePost($conn)
     $input = json_decode(file_get_contents("php://input"), true);
 
     $result = createStudent($conn, $input['fullname'], $input['email'], $input['age']);
-    if ($result['inserted'] > 0) 
+
+    // Si hay error: email duplicado
+    if (isset($result['error']) && $result['error'] === "duplicate_email") 
     {
-        echo json_encode(["message" => "Estudiante agregado correctamente"]);
-    } 
-    else 
+        http_response_code(409); // error 409 = conflicto
+        echo json_encode([
+            "error" => "duplicate_email",
+            "message" => "El email ya esta registrado"
+        ]);
+    }
+    // Si se insertó correctamente
+    else if ($result['inserted'] > 0) 
     {
+        echo json_encode([
+            "message" => "Estudiante agregado correctamente",
+            "id" => $result['id']
+        ]);
+    }
+    else
+    {
+        // Cualquier otro error
         http_response_code(500);
-        echo json_encode(["error" => "No se pudo agregar"]);
+        echo json_encode([
+            "error" => "db_error",
+            "message" => $result['message'] ?? "Error interno"
+        ]);
     }
 }
 
@@ -62,16 +81,33 @@ function handlePut($conn)
 function handleDelete($conn) 
 {
     $input = json_decode(file_get_contents("php://input"), true);
+    $studentId = $input['id'];
 
-    $result = deleteStudent($conn, $input['id']);
-    if ($result['deleted'] > 0) 
-    {
-        echo json_encode(["message" => "Eliminado correctamente"]);
+    // Verifica si tiene materias asignadas
+    $total = countSubjectsByStudent($conn, $studentId);
+    if ($total > 0) {
+        http_response_code(400);
+        echo json_encode([
+            "success" => false,
+            "error" => "No se puede eliminar el estudiante porque tiene $total materia(s) asignada(s)."
+        ]);
+        return;
+    }
+
+     $result = deleteStudent($conn, $studentId);
+
+    if ($result['deleted'] > 0) {
+        echo json_encode([
+            "success" => true,
+            "message" => "Eliminado correctamente"
+        ]);
     } 
-    else 
-    {
+    else {
         http_response_code(500);
-        echo json_encode(["error" => "No se pudo eliminar"]);
+        echo json_encode([
+            "success" => false,
+            "error" => "No se pudo eliminar"
+        ]);
     }
 }
 ?>

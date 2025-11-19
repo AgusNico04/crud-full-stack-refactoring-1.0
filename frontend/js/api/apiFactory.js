@@ -14,20 +14,22 @@ export function createAPI(moduleName, config = {})
 
     async function sendJSON(method, data) 
     {
-        const res = await fetch(API_URL,
-        {
+        const res = await fetch(API_URL, {
             method,
-            headers: { 'Content-Type': 'application/json' },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
         });
 
         if (!res.ok) 
         {
             const errorData = await res.json();
-            throw new Error(errorData.error || `Error en ${method}`);
+            throw new Error(errorData.message || errorData.error || `Error en ${method}`);
         }
+
         return await res.json();
     }
+        
+   
 
     return {
         async fetchAll()
@@ -50,3 +52,4 @@ export function createAPI(moduleName, config = {})
         }
     };
 }
+   

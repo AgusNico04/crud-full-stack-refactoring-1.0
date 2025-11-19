@@ -38,9 +38,15 @@ function setupFormHandler()
             clearForm();
             loadStudents();
         }
-        catch (err)
+        catch (err) //atrapamos el error lanzado desde el API
         {
-            console.error(err.message);
+            if (err.message) {
+                alert(err.message); //lanzamos alerta con el mensaje recibido
+                return;
+            }
+
+            console.error(err);//sino es otro error, lo mostramos en consola
+            alert("Ocurrió un error inesperado");//y mostramos un mensaje genérico
         }
     });
 }
@@ -139,14 +145,17 @@ async function confirmDelete(id)
 {
     if (!confirm('¿Estás seguro que deseas borrar este estudiante?')) return;
   
-    try 
+       try 
     {
-        await studentsAPI.remove(id);
+        const result = await studentsAPI.remove(id);
+
+        alert(result.message);   // Eliminado correctamente
         loadStudents();
     } 
     catch (err) 
     {
-        console.error('Error al borrar:', err.message);
+        // Mostrar mensaje de error que viene del backend
+       alert(err.message);    
     }
 }
   

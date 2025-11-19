@@ -83,7 +83,7 @@ function handleDelete($conn)
     $result = deleteSubject($conn, $input['id']);
     if (isset($result['error'])) 
     {
-        http_response_code(400);
+        http_response_code(409);
         echo json_encode(["error" => $result['error']]);
     } 
     else if ($result['deleted'] > 0) 
