@@ -32,16 +32,32 @@ function createStudent($conn, $fullname, $email, $age)
 {
     $sql = "INSERT INTO students (fullname, email, age) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssi", $fullname, $email, $age);
-    $stmt->execute();
 
-    //Se retorna un arreglo con la cantidad e filas insertadas 
-    //y id insertado para validar en el controlador:
-    return 
-    [
-        'inserted' => $stmt->affected_rows,        
-        'id' => $conn->insert_id
-    ];
+    $stmt->bind_param("ssi", $fullname, $email, $age);
+
+    try {
+        $stmt->execute();
+        
+        return [
+            'inserted' => $stmt->affected_rows,        
+            'id' => $conn->insert_id
+        ];
+    } catch (mysqli_sql_exception $e) {
+        // 1062 = Entrada duplicada (email unico)
+        if ($e->getCode() === 1062) {
+            return [
+                'inserted' => 0,
+                'error' => 'duplicate_email',
+                'message' => 'El email ya esta registrado'
+            ];
+        }
+
+        return [
+            'inserted' => 0,
+            'error' => 'db_error', 
+            'message' => $e->getMessage()
+        ];
+    }
 }
 
 function updateStudent($conn, $id, $fullname, $email, $age) 

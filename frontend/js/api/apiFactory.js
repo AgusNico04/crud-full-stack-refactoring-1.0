@@ -12,21 +12,21 @@ export function createAPI(moduleName, config = {})
 {
     const API_URL = config.urlOverride ?? `../../backend/server.php?module=${moduleName}`;
 
-    async function sendJSON(method, data) {
+    async function sendJSON(method, data) 
+    {
+        const res = await fetch(API_URL, {
+            method,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
 
-                const res = await fetch(API_URL, {
-                    method,
-                     headers: { 'Content-Type': 'application/json' },
-                       body: JSON.stringify(data)
-                        });
+        if (!res.ok) 
+        {
+            const errorData = await res.json();
+            throw new Error(errorData.message || errorData.error || `Error en ${method}`);
+        }
 
-                     
-                     if (!res.ok)  {
-                        const errorData = await res.json();
-                      throw new Error(errorData.error || `Error en ${method}`);
-                     }
-                     return await res.json();
-                                                                                                                
+        return await res.json();
     }
         
    
