@@ -35,10 +35,16 @@ function createStudent($conn, $fullname, $email, $age)
 
     $stmt->bind_param("ssi", $fullname, $email, $age);
 
-    if (!$stmt->execute()) {//Si la ejecucion de stmt falla
-
+    try {
+        $stmt->execute();
+        
+        return [
+            'inserted' => $stmt->affected_rows,        
+            'id' => $conn->insert_id
+        ];
+    } catch (mysqli_sql_exception $e) {
         // 1062 = Entrada duplicada (email unico)
-        if ($stmt->errno === 1062) {
+        if ($e->getCode() === 1062) {
             return [
                 'inserted' => 0,
                 'error' => 'duplicate_email',
@@ -49,14 +55,9 @@ function createStudent($conn, $fullname, $email, $age)
         return [
             'inserted' => 0,
             'error' => 'db_error', 
-            'message' => $stmt->error
+            'message' => $e->getMessage()
         ];
     }
-
-    return [
-        'inserted' => $stmt->affected_rows,        
-        'id' => $conn->insert_id
-    ];
 }
 
 function updateStudent($conn, $id, $fullname, $email, $age) 
