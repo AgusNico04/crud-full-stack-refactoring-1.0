@@ -40,14 +40,14 @@ function setupFormHandler()
         }
         catch (err) //atrapamos el error lanzado desde el API
         {
-            if (err.error === "duplicate_email") { //verificamos si es el error de email duplicado
-            alert(err.message); //lanzamos alerta con el mensaje recibido
-            return;
+            if (err.message) {
+                alert(err.message); //lanzamos alerta con el mensaje recibido
+                return;
             }
 
-        console.error(err);//sino es otro error, lo mostramos en consola
-        alert("Ocurrió un error inesperado");//y mostramos un mensaje genérico
-    }
+            console.error(err);//sino es otro error, lo mostramos en consola
+            alert("Ocurrió un error inesperado");//y mostramos un mensaje genérico
+        }
     });
 }
 
