@@ -78,7 +78,6 @@ function countSubjectsByStudent($conn, $studentId)
     return (int)$row['total'];
 } //cuenta materias que tiene asignadas el estudiante 
 
-
 function removeStudentSubject($conn, $id) 
 {
     $sql = "DELETE FROM students_subjects WHERE id = ?";
