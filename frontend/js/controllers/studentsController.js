@@ -155,6 +155,7 @@ async function confirmDelete(id)
     catch (err) 
     {
         // Mostrar mensaje de error que viene del backend
-       alert(err.message);    }
+       alert(err.message);    
+    }
 }
   

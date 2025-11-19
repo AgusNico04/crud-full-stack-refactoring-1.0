@@ -76,7 +76,7 @@ function countSubjectsByStudent($conn, $studentId)
     $row = $result->fetch_assoc();
 
     return (int)$row['total'];
-} //cuenta materias que tiene asiganadas el estudiante 
+} //cuenta materias que tiene asignadas el estudiante 
 
 
 function removeStudentSubject($conn, $id) 

@@ -81,11 +81,11 @@ function handlePut($conn)
 function handleDelete($conn) 
 {
     $input = json_decode(file_get_contents("php://input"), true);
-     $studentId = $input['id'];
+    $studentId = $input['id'];
 
     // Verifica si tiene materias asignadas
-$total = countSubjectsByStudent($conn, $studentId);
-if ($total > 0) {
+    $total = countSubjectsByStudent($conn, $studentId);
+    if ($total > 0) {
         http_response_code(400);
         echo json_encode([
             "success" => false,
