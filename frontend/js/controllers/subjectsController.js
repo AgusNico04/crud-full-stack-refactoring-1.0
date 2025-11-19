@@ -34,6 +34,7 @@ function setupSubjectFormHandler()
             if (subject.id) 
             {
                 await subjectsAPI.update(subject);
+                await loadSubjects();
             }
             else
             {
@@ -44,7 +45,7 @@ function setupSubjectFormHandler()
                     alert("La materia ya existe (validación frontend)");
                     return; 
                 }
-                
+
                 //prueba para crear la materia en el backend
                 try
                 {
