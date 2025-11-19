@@ -42,7 +42,9 @@ function setupSubjectFormHandler()
                 const exists = cachedSubjects.some(s => s.name.toLowerCase() === subject.name.toLowerCase());
                 if (exists) 
                 {
-                    alert("La materia ya existe (validación frontend)");
+                    const paragraphElement = document.getElementById("errMat");
+                    paragraphElement.textContent = "La materia ya existe (validación frontend)";
+                    paragraphElement.style.display = 'block';
                     return; 
                 }
 
@@ -55,11 +57,15 @@ function setupSubjectFormHandler()
                     //rta del backend: evitar dup
                     if (err.message.includes("ya existe")) 
                     {
-                      alert("La materia ya existe (validación backend)");
+                        const paragraphElement = document.getElementById("errMat");
+                        paragraphElement.textContent = "La materia ya existe (validación backend)";
+                        paragraphElement.style.display = 'block';
+                        return;
                     }
                     else 
                     {
                         alert("Error inesperado: " + err.message);
+                        return;
                     }
                 }
             
