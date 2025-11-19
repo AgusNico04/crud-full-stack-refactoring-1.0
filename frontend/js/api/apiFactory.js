@@ -12,23 +12,24 @@ export function createAPI(moduleName, config = {})
 {
     const API_URL = config.urlOverride ?? `../../backend/server.php?module=${moduleName}`;
 
-    async function sendJSON(method, data) 
- {
-        const res = await fetch(API_URL,
-        {
-            method,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-       const json = await res.json();
+    async function sendJSON(method, data) {
 
-       if (!res.ok) {
-        // El backend ya devuelve { error: "mensaje..." }
-        throw new Error(json.error || "Error en la operación");
-    }
+                const res = await fetch(API_URL, {
+                    method,
+                     headers: { 'Content-Type': 'application/json' },
+                       body: JSON.stringify(data)
+                        });
 
-    return json;
+                     
+                     if (!res.ok)  {
+                        const errorData = await res.json();
+                      throw new Error(errorData.error || `Error en ${method}`);
+                     }
+                     return await res.json();
+                                                                                                                
     }
+        
+   
 
     return {
         async fetchAll()
@@ -51,3 +52,4 @@ export function createAPI(moduleName, config = {})
         }
     };
 }
+   
