@@ -51,7 +51,7 @@ function updateSubject($conn, $id, $name)
     return ['updated' => $stmt->affected_rows];
 }
 
-function deleteSubject($conn, $id) 
+function checkDeleteSubject($conn, $id) 
 {
     $sqlSubjectCheck = "SELECT COUNT(*) as count FROM students_subjects WHERE subject_id = ?";
     $stmtCheck = $conn->prepare($sqlSubjectCheck);
@@ -60,7 +60,12 @@ function deleteSubject($conn, $id)
     
     $resultCheck = $stmtCheck->get_result()->fetch_assoc();
 
-    if ($resultCheck['count'] > 0)
+    return $resultCheck['count'] > 0;
+}
+
+function deleteSubject($conn, $id) 
+{
+    if (checkDeleteSubject($conn, $id))
         return ['deleted' => 0, 'error' => 'No se puede eliminar la materia porque tiene estudiantes asignados.'];
 
     $sql = "DELETE FROM subjects WHERE id = ?";
