@@ -28,6 +28,8 @@ export function createAPI(moduleName, config = {})
 
         return await res.json();
     }
+        
+   
 
     return {
         async fetchAll()
@@ -50,3 +52,4 @@ export function createAPI(moduleName, config = {})
         }
     };
 }
+   

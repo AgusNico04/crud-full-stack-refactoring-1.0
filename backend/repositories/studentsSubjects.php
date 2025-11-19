@@ -66,6 +66,18 @@ function updateStudentSubject($conn, $id, $student_id, $subject_id, $approved)
     return ['updated' => $stmt->affected_rows];
 }
 
+function countSubjectsByStudent($conn, $studentId)
+{
+    $sql = "SELECT COUNT(*) AS total FROM students_subjects WHERE student_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $studentId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    return (int)$row['total'];
+} //cuenta materias que tiene asignadas el estudiante 
+
 function removeStudentSubject($conn, $id) 
 {
     $sql = "DELETE FROM students_subjects WHERE id = ?";

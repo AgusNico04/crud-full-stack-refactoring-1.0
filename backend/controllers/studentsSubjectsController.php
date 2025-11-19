@@ -71,4 +71,3 @@ function handleDelete($conn)
         echo json_encode(["error" => "No se pudo eliminar"]);
     }
 }
-?>

@@ -27,9 +27,26 @@ function handleGet($conn)
     }
 }
 
+function subjectExists($conn, $name) 
+{
+    $sql = "SELECT id FROM subjects WHERE name = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $name);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    return $result->num_rows > 0;
+}
+
 function handlePost($conn) 
 {
     $input = json_decode(file_get_contents("php://input"), true);
+    $name = $input['name'];
+    if (subjectExists($conn, $name)) {
+        http_response_code(400); // Error de cliente
+        echo json_encode(["error" => "La materia '$name' ya existe"]);
+        return;
+    }
 
     $result = createSubject($conn, $input['name']);
     if ($result['inserted'] > 0) 

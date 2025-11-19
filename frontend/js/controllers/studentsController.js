@@ -145,14 +145,17 @@ async function confirmDelete(id)
 {
     if (!confirm('¿Estás seguro que deseas borrar este estudiante?')) return;
   
-    try 
+       try 
     {
-        await studentsAPI.remove(id);
+        const result = await studentsAPI.remove(id);
+
+        alert(result.message);   // Eliminado correctamente
         loadStudents();
     } 
     catch (err) 
     {
-        console.error('Error al borrar:', err.message);
+        // Mostrar mensaje de error que viene del backend
+       alert(err.message);    
     }
 }
   

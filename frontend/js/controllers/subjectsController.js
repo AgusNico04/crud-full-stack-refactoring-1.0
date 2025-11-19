@@ -34,15 +34,39 @@ function setupSubjectFormHandler()
             if (subject.id) 
             {
                 await subjectsAPI.update(subject);
+                await loadSubjects();
             }
             else
             {
-                await subjectsAPI.create(subject);
-            }
+                //validación en el frontend: evitar dup
+                const exists = cachedSubjects.some(s => s.name.toLowerCase() === subject.name.toLowerCase());
+                if (exists) 
+                {
+                    alert("La materia ya existe (validación frontend)");
+                    return; 
+                }
+
+                //prueba para crear la materia en el backend
+                try
+                {
+                    await subjectsAPI.create(subject);
+                }
+                catch(err) {
+                    //rta del backend: evitar dup
+                    if (err.message.includes("ya existe")) 
+                    {
+                      alert("La materia ya existe (validación backend)");
+                    }
+                    else 
+                    {
+                        alert("Error inesperado: " + err.message);
+                    }
+                }
             
             form.reset();
             document.getElementById('subjectId').value = '';
             loadSubjects();
+            }
         }
         catch (err)
         {
@@ -60,12 +84,13 @@ function setupCancelHandler()
     });
 }
 
+let cachedSubjects = [];
 async function loadSubjects()
 {
     try
     {
-        const subjects = await subjectsAPI.fetchAll();
-        renderSubjectTable(subjects);
+        cachedSubjects = await subjectsAPI.fetchAll();
+        renderSubjectTable(cachedSubjects);
     }
     catch (err)
     {
